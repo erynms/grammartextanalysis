@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Text Analysis - Distant Reading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --bg-color: #ecf0f1;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --border-color: #bdc3c7;
+            --hover-color: #34495e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            background: var(--bg-color);
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .nav-tab.active {
+            background: var(--card-bg);
+            border-bottom-color: var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card h4 {
+            color: var(--secondary-color);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-box.positive {
+            background: linear-gradient(135deg, var(--success-color), #2ecc71);
+        }
+
+        .stat-box.neutral {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+
+        .stat-box.negative {
+            background: linear-gradient(135deg, var(--accent-color), #c0392b);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .chart-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 6px;
+        }
+
+        .sentiment-bar {
+            display: flex;
+            height: 40px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .sentiment-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .sentiment-segment.positive {
+            background-color: var(--success-color);
+        }
+
+        .sentiment-segment.neutral {
+            background-color: #95a5a6;
+        }
+
+        .sentiment-segment.negative {
+            background-color: var(--accent-color);
+        }
+
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .word-tag {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .comparison-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .comparison-selector select {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            cursor: pointer;
+        }
+
+        .comparison-selector button {
+            padding: 0.75rem 2rem;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .comparison-selector button:hover {
+            background: var(--hover-color);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--bg-color);
+        }
+
+        .sentiment-progression {
+            display: flex;
+            gap: 2px;
+            height: 60px;
+            margin-top: 1rem;
+            background: var(--bg-color);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .progression-bar {
+            flex: 1;
+            background: var(--border-color);
+            position: relative;
+            border-radius: 2px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .progression-bar:hover {
+            transform: scaleY(1.1);
+        }
+
+        .progression-bar.positive {
+            background: linear-gradient(to top, var(--success-color), #2ecc71);
+        }
+
+        .progression-bar.negative {
+            background: linear-gradient(to top, var(--accent-color), #c0392b);
+        }
+
+        .progression-bar.neutral {
+            background: linear-gradient(to top, #95a5a6, #bdc3c7);
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .text-list {
+            list-style: none;
+        }
+
+        .text-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .text-item:hover {
+            background: var(--bg-color);
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .text-item.selected {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .text-item h4 {
+            color: inherit;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .text-item p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .nav-tab {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Grammar Text Analysis</h1>
+        <p>Distant Reading of Historical Grammar and Composition Texts</p>
+    </header>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-section="overview">Overview</button>
+            <button class="nav-tab" data-section="individual">Individual Texts</button>
+            <button class="nav-tab" data-section="comparison">Compare Texts</button>
+            <button class="nav-tab" data-section="statistics">Statistics</button>
+        </div>
+
+        <!-- Overview Section -->
+        <div id="overview" class="content-section active">
+            <div class="card">
+                <h3>Collection Overview</h3>
+                <div id="collection-info"></div>
+            </div>
+
+            <div class="grid" id="overview-grid"></div>
+        </div>
+
+        <!-- Individual Texts Section -->
+        <div id="individual" class="content-section">
+            <div class="grid">
+                <div class="card">
+                    <h3>Select a Text</h3>
+                    <ul class="text-list" id="text-list"></ul>
+                </div>
+                <div class="card" id="text-detail-card" style="grid-column: span 2;">
+                    <h3>Text Details</h3>
+                    <p>Select a text from the list to view its analysis.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Section -->
+        <div id="comparison" class="content-section">
+            <div class="card">
+                <h3>Compare Texts</h3>
+                <div class="comparison-selector">
+                    <select id="compare-text-1">
+                        <option value="">Select first text...</option>
+                    </select>
+                    <select id="compare-text-2">
+                        <option value="">Select second text...</option>
+                    </select>
+                    <button onclick="compareTexts()">Compare</button>
+                </div>
+            </div>
+            <div class="comparison-grid" id="comparison-results"></div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div id="statistics" class="content-section">
+            <div class="card">
+                <h3>Corpus Statistics</h3>
+                <div id="corpus-stats"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        let analysisData = null;
+
+        // Load JSON data
+        async function loadData() {
+            try {
+                const response = await fetch('analysis_results.json');
+                analysisData = await response.json();
+                initializeApp();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Error loading analysis data. Please ensure analysis_results.json is in the same directory.');
+            }
+        }
+
+        // Initialize the application
+        function initializeApp() {
+            setupNavigation();
+            renderOverview();
+            renderIndividualTexts();
+            renderComparisonSelectors();
+            renderStatistics();
+        }
+
+        // Setup navigation
+        function setupNavigation() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const section = tab.dataset.section;
+
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Update active section
+                    document.querySelectorAll('.content-section').forEach(s => {
+                        s.classList.remove('active');
+                    });
+                    document.getElementById(section).classList.add('active');
+                });
+            });
+        }
+
+        // Render overview section
+        function renderOverview() {
+            const info = analysisData.analysis_info;
+            const texts = analysisData.texts;
+
+            // Collection info
+            document.getElementById('collection-info').innerHTML = `
+                <p><strong>Total Texts:</strong> ${info.total_files}</p>
+                <p><strong>Analyzer:</strong> ${info.analyzer}</p>
+                <p><strong>Description:</strong> ${info.description}</p>
+            `;
+
+            // Overview cards
+            const grid = document.getElementById('overview-grid');
+            grid.innerHTML = texts.map(text => `
+                <div class="card">
+                    <h3>${text.author}</h3>
+                    <h4>${text.title}</h4>
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem;">
+                        <div class="stat-box">
+                            <div class="stat-label">Words</div>
+                            <div class="stat-value">${text.statistics.word_count.toLocaleString()}</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Unique Words</div>
+                            <div class="stat-value">${text.statistics.unique_words.toLocaleString()}</div>
+                        </div>
+                    </div>
+                    <div class="sentiment-bar">
+                        <div class="sentiment-segment positive" style="width: ${text.overall_sentiment.positive * 100}%">
+                            ${(text.overall_sentiment.positive * 100).toFixed(1)}%
+                        </div>
+                        <div class="sentiment-segment neutral" style="width: ${text.overall_sentiment.neutral * 100}%">
+                            ${(text.overall_sentiment.neutral * 100).toFixed(1)}%
+                        </div>
+                        <div class="sentiment-segment negative" style="width: ${text.overall_sentiment.negative * 100}%">
+                            ${(text.overall_sentiment.negative * 100).toFixed(1)}%
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render individual texts section
+        function renderIndividualTexts() {
+            const textList = document.getElementById('text-list');
+            textList.innerHTML = analysisData.texts.map((text, index) => `
+                <li class="text-item" onclick="showTextDetail(${index})">
+                    <h4>${text.author} - ${text.title}</h4>
+                    <p>${text.statistics.word_count.toLocaleString()} words | Sentiment: ${text.overall_sentiment.compound.toFixed(3)}</p>
+                </li>
+            `).join('');
+        }
+
+        // Show text detail
+        function showTextDetail(index) {
+            const text = analysisData.texts[index];
+            const detailCard = document.getElementById('text-detail-card');
+
+            // Update selected item
+            document.querySelectorAll('.text-item').forEach((item, i) => {
+                item.classList.toggle('selected', i === index);
+            });
+
+            detailCard.innerHTML = `
+                <h3>${text.author} - ${text.title}</h3>
+
+                <h4>Basic Statistics</h4>
+                <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Words</div>
+                        <div class="stat-value">${text.statistics.word_count.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Unique Words</div>
+                        <div class="stat-value">${text.statistics.unique_words.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Sentences</div>
+                        <div class="stat-value">${text.statistics.sentence_count.toLocaleString()}</div>
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: repeat(2, 1fr); margin-top: 1rem;">
+                    <div class="stat-box neutral">
+                        <div class="stat-label">Avg Sentence Length</div>
+                        <div class="stat-value">${text.statistics.avg_sentence_length}</div>
+                    </div>
+                    <div class="stat-box neutral">
+                        <div class="stat-label">Lexical Diversity</div>
+                        <div class="stat-value">${text.statistics.lexical_diversity}</div>
+                    </div>
+                </div>
+
+                <h4>Sentiment Analysis</h4>
+                <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-box positive">
+                        <div class="stat-label">Positive</div>
+                        <div class="stat-value">${(text.overall_sentiment.positive * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="stat-box neutral">
+                        <div class="stat-label">Neutral</div>
+                        <div class="stat-value">${(text.overall_sentiment.neutral * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="stat-box negative">
+                        <div class="stat-label">Negative</div>
+                        <div class="stat-value">${(text.overall_sentiment.negative * 100).toFixed(1)}%</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Compound</div>
+                        <div class="stat-value">${text.overall_sentiment.compound.toFixed(3)}</div>
+                    </div>
+                </div>
+
+                <h4>Sentiment Progression Throughout Text</h4>
+                <div class="sentiment-progression">
+                    ${text.sentiment_progression.map((chunk, i) => {
+                        const compound = chunk.sentiment.compound;
+                        let cssClass = 'neutral';
+                        if (compound > 0.05) cssClass = 'positive';
+                        else if (compound < -0.05) cssClass = 'negative';
+
+                        return `<div class="progression-bar ${cssClass}"
+                                     style="height: ${50 + (compound * 200)}%"
+                                     onmouseover="showTooltip(event, 'Chunk ${i + 1}: ${compound.toFixed(3)}')"
+                                     onmouseout="hideTooltip()"></div>`;
+                    }).join('')}
+                </div>
+
+                <h4>Most Common Words</h4>
+                <div class="word-cloud">
+                    ${text.statistics.top_words.map(word => `
+                        <span class="word-tag" style="font-size: ${0.9 + (word.count / 100)}rem">
+                            ${word.word} (${word.count})
+                        </span>
+                    `).join('')}
+                </div>
+
+                <h4>Sentiment Statistics</h4>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Mean Compound Score</td>
+                        <td>${text.sentiment_stats.mean_compound.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>Standard Deviation</td>
+                        <td>${text.sentiment_stats.std_compound.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Compound</td>
+                        <td>${text.sentiment_stats.min_compound.toFixed(4)}</td>
+                    </tr>
+                    <tr>
+                        <td>Maximum Compound</td>
+                        <td>${text.sentiment_stats.max_compound.toFixed(4)}</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        // Render comparison selectors
+        function renderComparisonSelectors() {
+            const select1 = document.getElementById('compare-text-1');
+            const select2 = document.getElementById('compare-text-2');
+
+            const options = analysisData.texts.map((text, index) =>
+                `<option value="${index}">${text.author} - ${text.title}</option>`
+            ).join('');
+
+            select1.innerHTML = '<option value="">Select first text...</option>' + options;
+            select2.innerHTML = '<option value="">Select second text...</option>' + options;
+        }
+
+        // Compare texts
+        function compareTexts() {
+            const index1 = document.getElementById('compare-text-1').value;
+            const index2 = document.getElementById('compare-text-2').value;
+
+            if (!index1 || !index2) {
+                alert('Please select two texts to compare');
+                return;
+            }
+
+            if (index1 === index2) {
+                alert('Please select different texts to compare');
+                return;
+            }
+
+            const text1 = analysisData.texts[index1];
+            const text2 = analysisData.texts[index2];
+
+            const resultsDiv = document.getElementById('comparison-results');
+            resultsDiv.innerHTML = `
+                <div class="card">
+                    <h3>${text1.author} - ${text1.title}</h3>
+                    ${renderTextComparison(text1)}
+                </div>
+                <div class="card">
+                    <h3>${text2.author} - ${text2.title}</h3>
+                    ${renderTextComparison(text2)}
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <h3>Comparative Analysis</h3>
+                    ${renderComparativeAnalysis(text1, text2)}
+                </div>
+            `;
+        }
+
+        // Render text comparison
+        function renderTextComparison(text) {
+            return `
+                <table>
+                    <tr><th>Metric</th><th>Value</th></tr>
+                    <tr><td>Word Count</td><td>${text.statistics.word_count.toLocaleString()}</td></tr>
+                    <tr><td>Unique Words</td><td>${text.statistics.unique_words.toLocaleString()}</td></tr>
+                    <tr><td>Sentences</td><td>${text.statistics.sentence_count.toLocaleString()}</td></tr>
+                    <tr><td>Avg Sentence Length</td><td>${text.statistics.avg_sentence_length}</td></tr>
+                    <tr><td>Lexical Diversity</td><td>${text.statistics.lexical_diversity}</td></tr>
+                    <tr><td>Positive Sentiment</td><td>${(text.overall_sentiment.positive * 100).toFixed(1)}%</td></tr>
+                    <tr><td>Neutral Sentiment</td><td>${(text.overall_sentiment.neutral * 100).toFixed(1)}%</td></tr>
+                    <tr><td>Negative Sentiment</td><td>${(text.overall_sentiment.negative * 100).toFixed(1)}%</td></tr>
+                    <tr><td>Compound Score</td><td>${text.overall_sentiment.compound.toFixed(3)}</td></tr>
+                </table>
+            `;
+        }
+
+        // Render comparative analysis
+        function renderComparativeAnalysis(text1, text2) {
+            const wordDiff = ((text1.statistics.word_count - text2.statistics.word_count) / text2.statistics.word_count * 100).toFixed(1);
+            const diversityDiff = ((text1.statistics.lexical_diversity - text2.statistics.lexical_diversity) / text2.statistics.lexical_diversity * 100).toFixed(1);
+            const sentimentDiff = (text1.overall_sentiment.compound - text2.overall_sentiment.compound).toFixed(3);
+
+            return `
+                <table>
+                    <tr>
+                        <th>Comparison</th>
+                        <th>${text1.author}</th>
+                        <th>${text2.author}</th>
+                        <th>Difference</th>
+                    </tr>
+                    <tr>
+                        <td>Word Count</td>
+                        <td>${text1.statistics.word_count.toLocaleString()}</td>
+                        <td>${text2.statistics.word_count.toLocaleString()}</td>
+                        <td>${wordDiff > 0 ? '+' : ''}${wordDiff}%</td>
+                    </tr>
+                    <tr>
+                        <td>Lexical Diversity</td>
+                        <td>${text1.statistics.lexical_diversity}</td>
+                        <td>${text2.statistics.lexical_diversity}</td>
+                        <td>${diversityDiff > 0 ? '+' : ''}${diversityDiff}%</td>
+                    </tr>
+                    <tr>
+                        <td>Sentiment (Compound)</td>
+                        <td>${text1.overall_sentiment.compound.toFixed(3)}</td>
+                        <td>${text2.overall_sentiment.compound.toFixed(3)}</td>
+                        <td>${sentimentDiff > 0 ? '+' : ''}${sentimentDiff}</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        // Render statistics
+        function renderStatistics() {
+            const texts = analysisData.texts;
+            const totalWords = texts.reduce((sum, t) => sum + t.statistics.word_count, 0);
+            const avgWords = totalWords / texts.length;
+            const avgSentiment = texts.reduce((sum, t) => sum + t.overall_sentiment.compound, 0) / texts.length;
+
+            const statsDiv = document.getElementById('corpus-stats');
+            statsDiv.innerHTML = `
+                <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Words</div>
+                        <div class="stat-value">${totalWords.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Average Words per Text</div>
+                        <div class="stat-value">${Math.round(avgWords).toLocaleString()}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Average Sentiment</div>
+                        <div class="stat-value">${avgSentiment.toFixed(3)}</div>
+                    </div>
+                </div>
+
+                <h4>All Texts Overview</h4>
+                <table>
+                    <tr>
+                        <th>Author</th>
+                        <th>Title</th>
+                        <th>Words</th>
+                        <th>Unique Words</th>
+                        <th>Lexical Diversity</th>
+                        <th>Sentiment</th>
+                    </tr>
+                    ${texts.map(text => `
+                        <tr>
+                            <td>${text.author}</td>
+                            <td>${text.title}</td>
+                            <td>${text.statistics.word_count.toLocaleString()}</td>
+                            <td>${text.statistics.unique_words.toLocaleString()}</td>
+                            <td>${text.statistics.lexical_diversity}</td>
+                            <td>${text.overall_sentiment.compound.toFixed(3)}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+        }
+
+        // Tooltip functions
+        function showTooltip(event, text) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.textContent = text;
+            tooltip.style.display = 'block';
+            tooltip.style.left = event.pageX + 10 + 'px';
+            tooltip.style.top = event.pageY + 10 + 'px';
+        }
+
+        function hideTooltip() {
+            document.getElementById('tooltip').style.display = 'none';
+        }
+
+        // Load data when page loads
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

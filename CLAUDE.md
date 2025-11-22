@@ -4,40 +4,98 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a grammar text analysis project. The repository is currently in initial setup phase.
+A distant reading analysis system for historical grammar and composition texts. The project analyzes six Project Gutenberg texts, performing sentiment analysis, statistical analysis, and providing an interactive web-based visualization interface.
 
-## Project Setup
+## Commands
 
-This repository is being initialized. When setting up the project structure, consider:
+### Run Analysis
 
-- **Language choice**: Determine the primary programming language (Python is common for NLP/text analysis)
-- **Dependencies**: Grammar analysis typically requires NLP libraries (e.g., spaCy, NLTK, or similar)
-- **Project structure**: Organize code into modules for parsing, analysis, and output
-- **Testing framework**: Set up unit tests for grammar rule validation
-- **Documentation**: Create README.md with project description, installation, and usage instructions
+```bash
+python3 analyze_texts.py
+```
 
-## Development Workflow
+Processes all `.txt` files in the directory, performs sentiment analysis and text statistics, and generates `analysis_results.json`.
 
-Once the project is initialized, this section should include:
+### View Results
 
-- Build commands
-- Test execution commands
-- Linting and formatting tools
-- How to run analysis on sample texts
+```bash
+python3 -m http.server 8000
+# Then open http://localhost:8000 in browser
+```
 
-## Architecture Notes
+Or simply open `index.html` directly in a web browser.
 
-To be documented as the project structure emerges. Key areas to cover:
+### Install Dependencies (Optional)
 
-- Text parsing pipeline
-- Grammar rule definitions and storage
-- Analysis engine architecture
-- Output formatting and reporting
-- Error handling for malformed input
+```bash
+pip3 install nltk  # For enhanced VADER sentiment analysis
+```
 
-## Notes for Future Development
+The script works with basic sentiment analysis if NLTK is not available.
 
-- Update this file as project structure solidifies
-- Document any domain-specific grammar analysis approaches
-- Include examples of expected input/output formats
-- Document any performance considerations for large text processing
+## Architecture
+
+### Analysis Pipeline (`analyze_texts.py`)
+
+1. **Text Extraction**: `extract_gutenberg_text()` removes Project Gutenberg headers/footers
+2. **Text Cleaning**: `clean_text()` normalizes whitespace, quotes, and removes artifacts
+3. **Chunking**: `split_into_chunks()` divides text into 2000-word segments for progression analysis
+4. **Sentiment Analysis**:
+   - Uses VADER if available (`analyze_sentiment_vader()`)
+   - Falls back to basic word-list analysis (`analyze_sentiment_basic()`)
+5. **Statistics**: `analyze_text_statistics()` calculates word counts, lexical diversity, etc.
+6. **JSON Output**: All results saved to `analysis_results.json`
+
+### Web Interface (`index.html`)
+
+Single-page application with four main sections:
+- **Overview**: Summary cards for all texts with basic stats and sentiment bars
+- **Individual Texts**: Detailed analysis including sentiment progression charts and word clouds
+- **Compare Texts**: Side-by-side comparison of selected texts
+- **Statistics**: Corpus-wide statistics and complete data table
+
+Data flows from JSON → JavaScript → Dynamic DOM rendering.
+
+## Key Files
+
+- `analyze_texts.py`: Main analysis script (TextAnalyzer class)
+- `analysis_results.json`: Generated analysis data
+- `index.html`: Web visualization (HTML/CSS/JavaScript in one file)
+- `*.txt`: Six Project Gutenberg source texts
+- `README.md`: User documentation
+
+## Data Structure
+
+The JSON output contains:
+```
+{
+  "analysis_info": {...},
+  "texts": [
+    {
+      "filename": "...",
+      "author": "...",
+      "title": "...",
+      "statistics": {word_count, unique_words, sentence_count, avg_sentence_length, lexical_diversity, top_words},
+      "overall_sentiment": {positive, negative, neutral, compound},
+      "sentiment_progression": [{chunk_index, sentiment}, ...],
+      "sentiment_stats": {mean_compound, std_compound, min_compound, max_compound}
+    }
+  ]
+}
+```
+
+## Sentiment Analysis
+
+Basic analyzer uses positive/negative word lists. Scores:
+- **positive/negative/neutral**: Percentage (0-1)
+- **compound**: Overall score (-1 to +1). >0.05 = positive, <-0.05 = negative
+
+If NLTK is installed, uses VADER (Valence Aware Dictionary and sEntiment Reasoner) for more sophisticated analysis.
+
+## Extending the Analysis
+
+To add new analysis features:
+1. Add method to `TextAnalyzer` class in `analyze_texts.py`
+2. Update JSON output structure in `analyze_file()`
+3. Update web interface in `index.html` to display new data
+4. Re-run `python3 analyze_texts.py` to regenerate JSON
