@@ -502,6 +502,11 @@
                 <div class="card">
                     <h3>${text.author}</h3>
                     <h4>${text.title}</h4>
+                    <p style="color: #7f8c8d; font-size: 0.95rem; margin-bottom: 1rem;">
+                        <strong>Audience:</strong> ${text.audience.primary_audience}<br>
+                        <strong>Age Range:</strong> ${text.audience.age_range}<br>
+                        <strong>Reading Level:</strong> Grade ${text.readability.flesch_kincaid_grade}
+                    </p>
                     <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem;">
                         <div class="stat-box">
                             <div class="stat-label">Words</div>
@@ -550,6 +555,42 @@
 
             detailCard.innerHTML = `
                 <h3>${text.author} - ${text.title}</h3>
+
+                <h4>Intended Audience</h4>
+                <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-box">
+                        <div class="stat-label">Primary Audience</div>
+                        <div class="stat-value" style="font-size: 1.2rem;">${text.audience.primary_audience}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Age Range</div>
+                        <div class="stat-value" style="font-size: 1.2rem;">${text.audience.age_range}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Grade Level</div>
+                        <div class="stat-value" style="font-size: 1.2rem;">${text.audience.grade_level}</div>
+                    </div>
+                </div>
+
+                <h4>Readability Metrics</h4>
+                <div class="grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-box">
+                        <div class="stat-label">F-K Grade Level</div>
+                        <div class="stat-value">${text.readability.flesch_kincaid_grade}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Reading Ease</div>
+                        <div class="stat-value">${text.readability.flesch_reading_ease}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">ARI Index</div>
+                        <div class="stat-value">${text.readability.automated_readability_index}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Avg Syllables/Word</div>
+                        <div class="stat-value">${text.readability.avg_syllables_per_word}</div>
+                    </div>
+                </div>
 
                 <h4>Basic Statistics</h4>
                 <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -701,6 +742,12 @@
             return `
                 <table>
                     <tr><th>Metric</th><th>Value</th></tr>
+                    <tr><td><strong>Intended Audience</strong></td><td>${text.audience.primary_audience}</td></tr>
+                    <tr><td><strong>Age Range</strong></td><td>${text.audience.age_range}</td></tr>
+                    <tr><td><strong>Grade Level</strong></td><td>${text.audience.grade_level}</td></tr>
+                    <tr><td><strong>F-K Grade Level</strong></td><td>${text.readability.flesch_kincaid_grade}</td></tr>
+                    <tr><td><strong>Reading Ease</strong></td><td>${text.readability.flesch_reading_ease}</td></tr>
+                    <tr><td><strong>ARI Index</strong></td><td>${text.readability.automated_readability_index}</td></tr>
                     <tr><td>Word Count</td><td>${text.statistics.word_count.toLocaleString()}</td></tr>
                     <tr><td>Unique Words</td><td>${text.statistics.unique_words.toLocaleString()}</td></tr>
                     <tr><td>Sentences</td><td>${text.statistics.sentence_count.toLocaleString()}</td></tr>
@@ -719,6 +766,8 @@
             const wordDiff = ((text1.statistics.word_count - text2.statistics.word_count) / text2.statistics.word_count * 100).toFixed(1);
             const diversityDiff = ((text1.statistics.lexical_diversity - text2.statistics.lexical_diversity) / text2.statistics.lexical_diversity * 100).toFixed(1);
             const sentimentDiff = (text1.overall_sentiment.compound - text2.overall_sentiment.compound).toFixed(3);
+            const fkGradeDiff = (text1.readability.flesch_kincaid_grade - text2.readability.flesch_kincaid_grade).toFixed(2);
+            const readingEaseDiff = (text1.readability.flesch_reading_ease - text2.readability.flesch_reading_ease).toFixed(2);
 
             return `
                 <table>
@@ -727,6 +776,30 @@
                         <th>${text1.author}</th>
                         <th>${text2.author}</th>
                         <th>Difference</th>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Intended Audience</strong></td>
+                        <td>${text1.audience.primary_audience}</td>
+                        <td>${text2.audience.primary_audience}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Age Range</strong></td>
+                        <td>${text1.audience.age_range}</td>
+                        <td>${text2.audience.age_range}</td>
+                        <td>-</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>F-K Grade Level</strong></td>
+                        <td>${text1.readability.flesch_kincaid_grade}</td>
+                        <td>${text2.readability.flesch_kincaid_grade}</td>
+                        <td>${fkGradeDiff > 0 ? '+' : ''}${fkGradeDiff} grades</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td><strong>Reading Ease</strong></td>
+                        <td>${text1.readability.flesch_reading_ease}</td>
+                        <td>${text2.readability.flesch_reading_ease}</td>
+                        <td>${readingEaseDiff > 0 ? '+' : ''}${readingEaseDiff}</td>
                     </tr>
                     <tr>
                         <td>Word Count</td>
@@ -779,8 +852,10 @@
                     <tr>
                         <th>Author</th>
                         <th>Title</th>
+                        <th>Audience</th>
+                        <th>Age Range</th>
+                        <th>F-K Grade</th>
                         <th>Words</th>
-                        <th>Unique Words</th>
                         <th>Lexical Diversity</th>
                         <th>Sentiment</th>
                     </tr>
@@ -788,8 +863,10 @@
                         <tr>
                             <td>${text.author}</td>
                             <td>${text.title}</td>
+                            <td>${text.audience.primary_audience}</td>
+                            <td>${text.audience.age_range}</td>
+                            <td>${text.readability.flesch_kincaid_grade}</td>
                             <td>${text.statistics.word_count.toLocaleString()}</td>
-                            <td>${text.statistics.unique_words.toLocaleString()}</td>
                             <td>${text.statistics.lexical_diversity}</td>
                             <td>${text.overall_sentiment.compound.toFixed(3)}</td>
                         </tr>

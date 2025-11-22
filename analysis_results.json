@@ -6,230 +6,24 @@
   },
   "texts": [
     {
-      "filename": "Miller Practical English.txt",
-      "author": "Miller",
-      "title": "Practical English",
-      "statistics": {
-        "word_count": 32797,
-        "unique_words": 5961,
-        "sentence_count": 2769,
-        "avg_sentence_length": 11.84,
-        "lexical_diversity": 0.1818,
-        "top_words": [
-          {
-            "word": "that",
-            "count": 312
-          },
-          {
-            "word": "with",
-            "count": 170
-          },
-          {
-            "word": "this",
-            "count": 163
-          },
-          {
-            "word": "which",
-            "count": 154
-          },
-          {
-            "word": "from",
-            "count": 139
-          },
-          {
-            "word": "have",
-            "count": 121
-          },
-          {
-            "word": "your",
-            "count": 91
-          },
-          {
-            "word": "what",
-            "count": 80
-          },
-          {
-            "word": "model",
-            "count": 79
-          },
-          {
-            "word": "will",
-            "count": 77
-          }
-        ]
-      },
-      "overall_sentiment": {
-        "positive": 0.007,
-        "negative": 0.0,
-        "neutral": 0.992,
-        "compound": 0.007
-      },
-      "sentiment_progression": [
-        {
-          "chunk_index": 0,
-          "sentiment": {
-            "positive": 0.008,
-            "negative": 0.002,
-            "neutral": 0.99,
-            "compound": 0.005
-          }
-        },
-        {
-          "chunk_index": 1,
-          "sentiment": {
-            "positive": 0.008,
-            "negative": 0.001,
-            "neutral": 0.992,
-            "compound": 0.007
-          }
-        },
-        {
-          "chunk_index": 2,
-          "sentiment": {
-            "positive": 0.008,
-            "negative": 0.0,
-            "neutral": 0.992,
-            "compound": 0.008
-          }
-        },
-        {
-          "chunk_index": 3,
-          "sentiment": {
-            "positive": 0.005,
-            "negative": 0.0,
-            "neutral": 0.994,
-            "compound": 0.005
-          }
-        },
-        {
-          "chunk_index": 4,
-          "sentiment": {
-            "positive": 0.006,
-            "negative": 0.0,
-            "neutral": 0.994,
-            "compound": 0.005
-          }
-        },
-        {
-          "chunk_index": 5,
-          "sentiment": {
-            "positive": 0.003,
-            "negative": 0.0,
-            "neutral": 0.997,
-            "compound": 0.003
-          }
-        },
-        {
-          "chunk_index": 6,
-          "sentiment": {
-            "positive": 0.006,
-            "negative": 0.001,
-            "neutral": 0.993,
-            "compound": 0.004
-          }
-        },
-        {
-          "chunk_index": 7,
-          "sentiment": {
-            "positive": 0.009,
-            "negative": 0.0,
-            "neutral": 0.991,
-            "compound": 0.009
-          }
-        },
-        {
-          "chunk_index": 8,
-          "sentiment": {
-            "positive": 0.008,
-            "negative": 0.0,
-            "neutral": 0.991,
-            "compound": 0.008
-          }
-        },
-        {
-          "chunk_index": 9,
-          "sentiment": {
-            "positive": 0.004,
-            "negative": 0.0,
-            "neutral": 0.995,
-            "compound": 0.004
-          }
-        },
-        {
-          "chunk_index": 10,
-          "sentiment": {
-            "positive": 0.006,
-            "negative": 0.0,
-            "neutral": 0.994,
-            "compound": 0.006
-          }
-        },
-        {
-          "chunk_index": 11,
-          "sentiment": {
-            "positive": 0.004,
-            "negative": 0.0,
-            "neutral": 0.996,
-            "compound": 0.004
-          }
-        },
-        {
-          "chunk_index": 12,
-          "sentiment": {
-            "positive": 0.011,
-            "negative": 0.001,
-            "neutral": 0.988,
-            "compound": 0.01
-          }
-        },
-        {
-          "chunk_index": 13,
-          "sentiment": {
-            "positive": 0.011,
-            "negative": 0.0,
-            "neutral": 0.988,
-            "compound": 0.011
-          }
-        },
-        {
-          "chunk_index": 14,
-          "sentiment": {
-            "positive": 0.007,
-            "negative": 0.0,
-            "neutral": 0.993,
-            "compound": 0.007
-          }
-        },
-        {
-          "chunk_index": 15,
-          "sentiment": {
-            "positive": 0.013,
-            "negative": 0.0,
-            "neutral": 0.987,
-            "compound": 0.013
-          }
-        },
-        {
-          "chunk_index": 16,
-          "sentiment": {
-            "positive": 0.01,
-            "negative": 0.0,
-            "neutral": 0.99,
-            "compound": 0.01
-          }
-        }
-      ],
-      "sentiment_stats": {
-        "mean_compound": 0.007,
-        "std_compound": 0.0029,
-        "min_compound": 0.003,
-        "max_compound": 0.013
-      }
-    },
-    {
       "filename": "Armstrong English Grammar.txt",
       "author": "Armstrong",
       "title": "English Grammar",
+      "audience": {
+        "primary_audience": "Elementary Students",
+        "age_range": "8-12 years",
+        "grade_level": "Grades 3-6",
+        "audience_tags": [
+          "teachers",
+          "elementary"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 78.91,
+        "flesch_kincaid_grade": 4.06,
+        "automated_readability_index": 2.69,
+        "avg_syllables_per_word": 1.43
+      },
       "statistics": {
         "word_count": 37817,
         "unique_words": 5983,
@@ -469,6 +263,22 @@
       "filename": "Fischer and Carpenter Elem Comp.txt",
       "author": "Fischer",
       "title": "and Carpenter Elem Comp",
+      "audience": {
+        "primary_audience": "Middle School Students",
+        "age_range": "12-14 years",
+        "grade_level": "Grades 7-8",
+        "audience_tags": [
+          "middle_school",
+          "college",
+          "elementary"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 73.8,
+        "flesch_kincaid_grade": 5.85,
+        "automated_readability_index": 4.82,
+        "avg_syllables_per_word": 1.43
+      },
       "statistics": {
         "word_count": 79323,
         "unique_words": 8788,
@@ -897,6 +707,22 @@
       "filename": "Northrop New Century Speaker and Writer.txt",
       "author": "Northrop",
       "title": "New Century Speaker and Writer",
+      "audience": {
+        "primary_audience": "Young People (Self-Study)",
+        "age_range": "14-25 years",
+        "grade_level": "High School to Adult",
+        "audience_tags": [
+          "college",
+          "teachers",
+          "adult"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 79.54,
+        "flesch_kincaid_grade": 4.95,
+        "automated_readability_index": 4.08,
+        "avg_syllables_per_word": 1.37
+      },
       "statistics": {
         "word_count": 242189,
         "unique_words": 20050,
@@ -1412,9 +1238,268 @@
       }
     },
     {
+      "filename": "Abbott How to Write Clearly.txt",
+      "author": "Abbott",
+      "title": "How to Write Clearly",
+      "audience": {
+        "primary_audience": "Young Students",
+        "age_range": "12-13 years",
+        "grade_level": "Grades 7-8",
+        "audience_tags": [
+          "college"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 61.56,
+        "flesch_kincaid_grade": 8.61,
+        "automated_readability_index": 8.04,
+        "avg_syllables_per_word": 1.53
+      },
+      "statistics": {
+        "word_count": 35318,
+        "unique_words": 5669,
+        "sentence_count": 2228,
+        "avg_sentence_length": 15.85,
+        "lexical_diversity": 0.1605,
+        "top_words": [
+          {
+            "word": "that",
+            "count": 443
+          },
+          {
+            "word": "this",
+            "count": 212
+          },
+          {
+            "word": "which",
+            "count": 207
+          },
+          {
+            "word": "with",
+            "count": 195
+          },
+          {
+            "word": "have",
+            "count": 130
+          },
+          {
+            "word": "from",
+            "count": 128
+          },
+          {
+            "word": "been",
+            "count": 105
+          },
+          {
+            "word": "sentence",
+            "count": 104
+          },
+          {
+            "word": "they",
+            "count": 101
+          },
+          {
+            "word": "when",
+            "count": 100
+          }
+        ]
+      },
+      "overall_sentiment": {
+        "positive": 0.006,
+        "negative": 0.001,
+        "neutral": 0.993,
+        "compound": 0.005
+      },
+      "sentiment_progression": [
+        {
+          "chunk_index": 0,
+          "sentiment": {
+            "positive": 0.011,
+            "negative": 0.003,
+            "neutral": 0.986,
+            "compound": 0.007
+          }
+        },
+        {
+          "chunk_index": 1,
+          "sentiment": {
+            "positive": 0.006,
+            "negative": 0.001,
+            "neutral": 0.993,
+            "compound": 0.004
+          }
+        },
+        {
+          "chunk_index": 2,
+          "sentiment": {
+            "positive": 0.006,
+            "negative": 0.002,
+            "neutral": 0.992,
+            "compound": 0.004
+          }
+        },
+        {
+          "chunk_index": 3,
+          "sentiment": {
+            "positive": 0.008,
+            "negative": 0.001,
+            "neutral": 0.991,
+            "compound": 0.006
+          }
+        },
+        {
+          "chunk_index": 4,
+          "sentiment": {
+            "positive": 0.004,
+            "negative": 0.001,
+            "neutral": 0.995,
+            "compound": 0.003
+          }
+        },
+        {
+          "chunk_index": 5,
+          "sentiment": {
+            "positive": 0.011,
+            "negative": 0.001,
+            "neutral": 0.988,
+            "compound": 0.01
+          }
+        },
+        {
+          "chunk_index": 6,
+          "sentiment": {
+            "positive": 0.005,
+            "negative": 0.002,
+            "neutral": 0.993,
+            "compound": 0.003
+          }
+        },
+        {
+          "chunk_index": 7,
+          "sentiment": {
+            "positive": 0.005,
+            "negative": 0.0,
+            "neutral": 0.995,
+            "compound": 0.004
+          }
+        },
+        {
+          "chunk_index": 8,
+          "sentiment": {
+            "positive": 0.003,
+            "negative": 0.001,
+            "neutral": 0.996,
+            "compound": 0.002
+          }
+        },
+        {
+          "chunk_index": 9,
+          "sentiment": {
+            "positive": 0.003,
+            "negative": 0.002,
+            "neutral": 0.996,
+            "compound": 0.001
+          }
+        },
+        {
+          "chunk_index": 10,
+          "sentiment": {
+            "positive": 0.005,
+            "negative": 0.002,
+            "neutral": 0.993,
+            "compound": 0.002
+          }
+        },
+        {
+          "chunk_index": 11,
+          "sentiment": {
+            "positive": 0.003,
+            "negative": 0.002,
+            "neutral": 0.994,
+            "compound": 0.001
+          }
+        },
+        {
+          "chunk_index": 12,
+          "sentiment": {
+            "positive": 0.009,
+            "negative": 0.0,
+            "neutral": 0.991,
+            "compound": 0.009
+          }
+        },
+        {
+          "chunk_index": 13,
+          "sentiment": {
+            "positive": 0.003,
+            "negative": 0.0,
+            "neutral": 0.996,
+            "compound": 0.003
+          }
+        },
+        {
+          "chunk_index": 14,
+          "sentiment": {
+            "positive": 0.007,
+            "negative": 0.0,
+            "neutral": 0.993,
+            "compound": 0.007
+          }
+        },
+        {
+          "chunk_index": 15,
+          "sentiment": {
+            "positive": 0.006,
+            "negative": 0.0,
+            "neutral": 0.993,
+            "compound": 0.006
+          }
+        },
+        {
+          "chunk_index": 16,
+          "sentiment": {
+            "positive": 0.008,
+            "negative": 0.001,
+            "neutral": 0.991,
+            "compound": 0.007
+          }
+        },
+        {
+          "chunk_index": 17,
+          "sentiment": {
+            "positive": 0.008,
+            "negative": 0.0,
+            "neutral": 0.992,
+            "compound": 0.008
+          }
+        }
+      ],
+      "sentiment_stats": {
+        "mean_compound": 0.0048,
+        "std_compound": 0.0027,
+        "min_compound": 0.001,
+        "max_compound": 0.01
+      }
+    },
+    {
       "filename": "Wood Practical Grammar and Comp.txt",
       "author": "Wood",
       "title": "Practical Grammar and Comp",
+      "audience": {
+        "primary_audience": "Adult Learners",
+        "age_range": "18+ years",
+        "grade_level": "Adult Education",
+        "audience_tags": [
+          "high_school",
+          "adult"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 76.0,
+        "flesch_kincaid_grade": 4.55,
+        "automated_readability_index": 3.13,
+        "avg_syllables_per_word": 1.45
+      },
       "statistics": {
         "word_count": 64863,
         "unique_words": 7999,
@@ -1777,175 +1862,146 @@
       }
     },
     {
-      "filename": "Abbott How to Write Clearly.txt",
-      "author": "Abbott",
-      "title": "How to Write Clearly",
+      "filename": "Miller Practical English.txt",
+      "author": "Miller",
+      "title": "Practical English",
+      "audience": {
+        "primary_audience": "High School Students (10th Grade)",
+        "age_range": "15-16 years",
+        "grade_level": "Grade 10",
+        "audience_tags": [
+          "high_school",
+          "teachers",
+          "elementary"
+        ]
+      },
+      "readability": {
+        "flesch_reading_ease": 67.54,
+        "flesch_kincaid_grade": 6.78,
+        "automated_readability_index": 5.58,
+        "avg_syllables_per_word": 1.5
+      },
       "statistics": {
-        "word_count": 35318,
-        "unique_words": 5669,
-        "sentence_count": 2228,
-        "avg_sentence_length": 15.85,
-        "lexical_diversity": 0.1605,
+        "word_count": 32797,
+        "unique_words": 5961,
+        "sentence_count": 2769,
+        "avg_sentence_length": 11.84,
+        "lexical_diversity": 0.1818,
         "top_words": [
           {
             "word": "that",
-            "count": 443
-          },
-          {
-            "word": "this",
-            "count": 212
-          },
-          {
-            "word": "which",
-            "count": 207
+            "count": 312
           },
           {
             "word": "with",
-            "count": 195
+            "count": 170
           },
           {
-            "word": "have",
-            "count": 130
+            "word": "this",
+            "count": 163
+          },
+          {
+            "word": "which",
+            "count": 154
           },
           {
             "word": "from",
-            "count": 128
+            "count": 139
           },
           {
-            "word": "been",
-            "count": 105
+            "word": "have",
+            "count": 121
           },
           {
-            "word": "sentence",
-            "count": 104
+            "word": "your",
+            "count": 91
           },
           {
-            "word": "they",
-            "count": 101
+            "word": "what",
+            "count": 80
           },
           {
-            "word": "when",
-            "count": 100
+            "word": "model",
+            "count": 79
+          },
+          {
+            "word": "will",
+            "count": 77
           }
         ]
       },
       "overall_sentiment": {
-        "positive": 0.006,
-        "negative": 0.001,
-        "neutral": 0.993,
-        "compound": 0.005
+        "positive": 0.007,
+        "negative": 0.0,
+        "neutral": 0.992,
+        "compound": 0.007
       },
       "sentiment_progression": [
         {
           "chunk_index": 0,
           "sentiment": {
-            "positive": 0.011,
-            "negative": 0.003,
-            "neutral": 0.986,
-            "compound": 0.007
+            "positive": 0.008,
+            "negative": 0.002,
+            "neutral": 0.99,
+            "compound": 0.005
           }
         },
         {
           "chunk_index": 1,
           "sentiment": {
-            "positive": 0.006,
+            "positive": 0.008,
             "negative": 0.001,
-            "neutral": 0.993,
-            "compound": 0.004
+            "neutral": 0.992,
+            "compound": 0.007
           }
         },
         {
           "chunk_index": 2,
           "sentiment": {
-            "positive": 0.006,
-            "negative": 0.002,
+            "positive": 0.008,
+            "negative": 0.0,
             "neutral": 0.992,
-            "compound": 0.004
+            "compound": 0.008
           }
         },
         {
           "chunk_index": 3,
           "sentiment": {
-            "positive": 0.008,
-            "negative": 0.001,
-            "neutral": 0.991,
-            "compound": 0.006
+            "positive": 0.005,
+            "negative": 0.0,
+            "neutral": 0.994,
+            "compound": 0.005
           }
         },
         {
           "chunk_index": 4,
           "sentiment": {
-            "positive": 0.004,
-            "negative": 0.001,
-            "neutral": 0.995,
-            "compound": 0.003
+            "positive": 0.006,
+            "negative": 0.0,
+            "neutral": 0.994,
+            "compound": 0.005
           }
         },
         {
           "chunk_index": 5,
           "sentiment": {
-            "positive": 0.011,
-            "negative": 0.001,
-            "neutral": 0.988,
-            "compound": 0.01
+            "positive": 0.003,
+            "negative": 0.0,
+            "neutral": 0.997,
+            "compound": 0.003
           }
         },
         {
           "chunk_index": 6,
           "sentiment": {
-            "positive": 0.005,
-            "negative": 0.002,
+            "positive": 0.006,
+            "negative": 0.001,
             "neutral": 0.993,
-            "compound": 0.003
-          }
-        },
-        {
-          "chunk_index": 7,
-          "sentiment": {
-            "positive": 0.005,
-            "negative": 0.0,
-            "neutral": 0.995,
             "compound": 0.004
           }
         },
         {
-          "chunk_index": 8,
-          "sentiment": {
-            "positive": 0.003,
-            "negative": 0.001,
-            "neutral": 0.996,
-            "compound": 0.002
-          }
-        },
-        {
-          "chunk_index": 9,
-          "sentiment": {
-            "positive": 0.003,
-            "negative": 0.002,
-            "neutral": 0.996,
-            "compound": 0.001
-          }
-        },
-        {
-          "chunk_index": 10,
-          "sentiment": {
-            "positive": 0.005,
-            "negative": 0.002,
-            "neutral": 0.993,
-            "compound": 0.002
-          }
-        },
-        {
-          "chunk_index": 11,
-          "sentiment": {
-            "positive": 0.003,
-            "negative": 0.002,
-            "neutral": 0.994,
-            "compound": 0.001
-          }
-        },
-        {
-          "chunk_index": 12,
+          "chunk_index": 7,
           "sentiment": {
             "positive": 0.009,
             "negative": 0.0,
@@ -1954,12 +2010,57 @@
           }
         },
         {
-          "chunk_index": 13,
+          "chunk_index": 8,
           "sentiment": {
-            "positive": 0.003,
+            "positive": 0.008,
+            "negative": 0.0,
+            "neutral": 0.991,
+            "compound": 0.008
+          }
+        },
+        {
+          "chunk_index": 9,
+          "sentiment": {
+            "positive": 0.004,
+            "negative": 0.0,
+            "neutral": 0.995,
+            "compound": 0.004
+          }
+        },
+        {
+          "chunk_index": 10,
+          "sentiment": {
+            "positive": 0.006,
+            "negative": 0.0,
+            "neutral": 0.994,
+            "compound": 0.006
+          }
+        },
+        {
+          "chunk_index": 11,
+          "sentiment": {
+            "positive": 0.004,
             "negative": 0.0,
             "neutral": 0.996,
-            "compound": 0.003
+            "compound": 0.004
+          }
+        },
+        {
+          "chunk_index": 12,
+          "sentiment": {
+            "positive": 0.011,
+            "negative": 0.001,
+            "neutral": 0.988,
+            "compound": 0.01
+          }
+        },
+        {
+          "chunk_index": 13,
+          "sentiment": {
+            "positive": 0.011,
+            "negative": 0.0,
+            "neutral": 0.988,
+            "compound": 0.011
           }
         },
         {
@@ -1974,36 +2075,27 @@
         {
           "chunk_index": 15,
           "sentiment": {
-            "positive": 0.006,
+            "positive": 0.013,
             "negative": 0.0,
-            "neutral": 0.993,
-            "compound": 0.006
+            "neutral": 0.987,
+            "compound": 0.013
           }
         },
         {
           "chunk_index": 16,
           "sentiment": {
-            "positive": 0.008,
-            "negative": 0.001,
-            "neutral": 0.991,
-            "compound": 0.007
-          }
-        },
-        {
-          "chunk_index": 17,
-          "sentiment": {
-            "positive": 0.008,
+            "positive": 0.01,
             "negative": 0.0,
-            "neutral": 0.992,
-            "compound": 0.008
+            "neutral": 0.99,
+            "compound": 0.01
           }
         }
       ],
       "sentiment_stats": {
-        "mean_compound": 0.0048,
-        "std_compound": 0.0027,
-        "min_compound": 0.001,
-        "max_compound": 0.01
+        "mean_compound": 0.007,
+        "std_compound": 0.0029,
+        "min_compound": 0.003,
+        "max_compound": 0.013
       }
     }
   ]
