@@ -351,6 +351,109 @@
             opacity: 0.8;
         }
 
+        .chart-section {
+            margin-bottom: 2rem;
+        }
+
+        .bar-chart {
+            margin-top: 1rem;
+        }
+
+        .bar-chart-item {
+            margin-bottom: 1rem;
+        }
+
+        .bar-chart-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .bar-chart-label-text {
+            font-weight: 500;
+        }
+
+        .bar-chart-label-value {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .bar-chart-bar-container {
+            background: var(--bg-color);
+            border-radius: 4px;
+            overflow: hidden;
+            height: 30px;
+            position: relative;
+        }
+
+        .bar-chart-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 4px;
+            transition: width 0.8s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .bar-chart-bar.readability {
+            background: linear-gradient(90deg, var(--success-color), #27ae60);
+        }
+
+        .bar-chart-bar.diversity {
+            background: linear-gradient(90deg, var(--warning-color), #e67e22);
+        }
+
+        .bar-chart-bar.sentiment {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+        }
+
+        .audience-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .audience-badge {
+            background: var(--card-bg);
+            border-left: 4px solid var(--secondary-color);
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .audience-badge h5 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-color);
+        }
+
+        .audience-badge p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+
+        .audience-badge.elementary {
+            border-left-color: #3498db;
+        }
+
+        .audience-badge.middle {
+            border-left-color: #2ecc71;
+        }
+
+        .audience-badge.high {
+            border-left-color: #f39c12;
+        }
+
+        .audience-badge.adult {
+            border-left-color: #e74c3c;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8rem;
@@ -385,6 +488,7 @@
             <button class="nav-tab active" data-section="overview">Overview</button>
             <button class="nav-tab" data-section="individual">Individual Texts</button>
             <button class="nav-tab" data-section="comparison">Compare Texts</button>
+            <button class="nav-tab" data-section="charts">Visual Charts</button>
             <button class="nav-tab" data-section="statistics">Statistics</button>
         </div>
 
@@ -429,6 +533,39 @@
             <div class="comparison-grid" id="comparison-results"></div>
         </div>
 
+        <!-- Visual Charts Section -->
+        <div id="charts" class="content-section">
+            <div class="card chart-section">
+                <h3>📊 Word Count Comparison</h3>
+                <p>Total words in each text</p>
+                <div class="bar-chart" id="chart-word-count"></div>
+            </div>
+
+            <div class="card chart-section">
+                <h3>📖 Readability Comparison (Flesch-Kincaid Grade Level)</h3>
+                <p>Lower grade = easier to read</p>
+                <div class="bar-chart" id="chart-readability"></div>
+            </div>
+
+            <div class="card chart-section">
+                <h3>🎯 Lexical Diversity Comparison</h3>
+                <p>Ratio of unique words to total words (higher = more varied vocabulary)</p>
+                <div class="bar-chart" id="chart-diversity"></div>
+            </div>
+
+            <div class="card chart-section">
+                <h3>💭 Overall Sentiment Comparison</h3>
+                <p>Compound sentiment score (-1 to +1)</p>
+                <div class="bar-chart" id="chart-sentiment"></div>
+            </div>
+
+            <div class="card chart-section">
+                <h3>👥 Audience Demographics</h3>
+                <p>Intended audience and age ranges for each text</p>
+                <div class="audience-visual" id="chart-audience"></div>
+            </div>
+        </div>
+
         <!-- Statistics Section -->
         <div id="statistics" class="content-section">
             <div class="card">
@@ -461,6 +598,7 @@
             renderOverview();
             renderIndividualTexts();
             renderComparisonSelectors();
+            renderCharts();
             renderStatistics();
         }
 
@@ -873,6 +1011,93 @@
                     `).join('')}
                 </table>
             `;
+        }
+
+        // Render visual charts
+        function renderCharts() {
+            const texts = analysisData.texts;
+
+            // Helper function to create a bar chart
+            function createBarChart(data, maxValue, cssClass = '') {
+                return data.map(item => {
+                    const percentage = (item.value / maxValue) * 100;
+                    return `
+                        <div class="bar-chart-item">
+                            <div class="bar-chart-label">
+                                <span class="bar-chart-label-text">${item.label}</span>
+                                <span class="bar-chart-label-value">${item.displayValue}</span>
+                            </div>
+                            <div class="bar-chart-bar-container">
+                                <div class="bar-chart-bar ${cssClass}" style="width: ${percentage}%">
+                                    ${percentage > 15 ? percentage.toFixed(0) + '%' : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 1. Word Count Chart
+            const wordCountData = texts.map(text => ({
+                label: `${text.author} - ${text.title}`,
+                value: text.statistics.word_count,
+                displayValue: text.statistics.word_count.toLocaleString() + ' words'
+            }));
+            const maxWordCount = Math.max(...wordCountData.map(d => d.value));
+            document.getElementById('chart-word-count').innerHTML = createBarChart(wordCountData, maxWordCount);
+
+            // 2. Readability Chart (F-K Grade)
+            const readabilityData = texts.map(text => ({
+                label: `${text.author} - ${text.title}`,
+                value: text.readability.flesch_kincaid_grade,
+                displayValue: 'Grade ' + text.readability.flesch_kincaid_grade
+            }));
+            const maxReadability = Math.max(...readabilityData.map(d => d.value));
+            document.getElementById('chart-readability').innerHTML = createBarChart(readabilityData, maxReadability, 'readability');
+
+            // 3. Lexical Diversity Chart
+            const diversityData = texts.map(text => ({
+                label: `${text.author} - ${text.title}`,
+                value: text.statistics.lexical_diversity,
+                displayValue: text.statistics.lexical_diversity.toFixed(4)
+            }));
+            const maxDiversity = Math.max(...diversityData.map(d => d.value));
+            document.getElementById('chart-diversity').innerHTML = createBarChart(diversityData, maxDiversity, 'diversity');
+
+            // 4. Sentiment Chart (normalized to 0-1 for display)
+            const sentimentData = texts.map(text => ({
+                label: `${text.author} - ${text.title}`,
+                value: (text.overall_sentiment.compound + 1) / 2, // Normalize -1 to 1 into 0 to 1
+                displayValue: text.overall_sentiment.compound.toFixed(3)
+            }));
+            const maxSentiment = 1; // Already normalized
+            document.getElementById('chart-sentiment').innerHTML = createBarChart(sentimentData, maxSentiment, 'sentiment');
+
+            // 5. Audience Demographics
+            const audienceHtml = texts.map(text => {
+                let badgeClass = 'audience-badge';
+                if (text.audience.primary_audience.toLowerCase().includes('elementary')) {
+                    badgeClass += ' elementary';
+                } else if (text.audience.primary_audience.toLowerCase().includes('middle')) {
+                    badgeClass += ' middle';
+                } else if (text.audience.primary_audience.toLowerCase().includes('high')) {
+                    badgeClass += ' high';
+                } else if (text.audience.primary_audience.toLowerCase().includes('adult')) {
+                    badgeClass += ' adult';
+                }
+
+                return `
+                    <div class="${badgeClass}">
+                        <h5>${text.author}</h5>
+                        <p><strong>${text.title}</strong></p>
+                        <p>👥 ${text.audience.primary_audience}</p>
+                        <p>🎂 ${text.audience.age_range}</p>
+                        <p>📚 ${text.audience.grade_level}</p>
+                        <p>📖 F-K Grade: ${text.readability.flesch_kincaid_grade}</p>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('chart-audience').innerHTML = audienceHtml;
         }
 
         // Tooltip functions
